@@ -1,10 +1,24 @@
 /* ── Page switching ───────────────────────────── */
 let currentPage = 'home';
 let switching = false;
+const navbar = document.getElementById('navbar');
+const navToggle = document.querySelector('.nav-toggle');
+
+function closeMobileMenu() {
+  navbar.classList.remove('menu-open');
+  if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+}
+
+function toggleMobileMenu() {
+  if (!navToggle) return;
+  const isOpen = navbar.classList.toggle('menu-open');
+  navToggle.setAttribute('aria-expanded', String(isOpen));
+}
 
 function switchPage(pageId) {
   if (pageId === currentPage || switching) return;
   switching = true;
+  closeMobileMenu();
 
   const from = document.querySelector(`.page[data-page="${currentPage}"]`);
   const to   = document.querySelector(`.page[data-page="${pageId}"]`);
@@ -34,6 +48,13 @@ function switchPage(pageId) {
 
 // Wire nav + ghost buttons
 document.addEventListener('click', e => {
+  const toggle = e.target.closest('.nav-toggle');
+  if (toggle) {
+    e.preventDefault();
+    toggleMobileMenu();
+    return;
+  }
+
   const pg = e.target.closest('[data-page]');
   if (pg && pg.closest('#navbar')) {
     e.preventDefault();
@@ -45,6 +66,18 @@ document.addEventListener('click', e => {
     e.preventDefault();
     switchPage(gt.dataset.goto);
   }
+
+  if (navbar.classList.contains('menu-open') && !e.target.closest('#navbar')) {
+    closeMobileMenu();
+  }
+});
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 900) closeMobileMenu();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeMobileMenu();
 });
 
 // Set initial nav state
