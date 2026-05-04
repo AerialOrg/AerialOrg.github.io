@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Aeriel Website</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-pill">
+      <ul class="nav-left">
+        <li><a href="javascript:void(0)" data-page="about">About</a></li>
+        <li><a href="javascript:void(0)" data-page="research">Research</a></li>
+      </ul>
+      <a href="javascript:void(0)" class="nav-logo" data-page="home">HOME</a>
+      <ul class="nav-right">
+        <li><a href="javascript:void(0)" data-page="team">Team</a></li>
+        <li><a href="javascript:void(0)" data-page="contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- FULL-SCREEN SPA -->
+  <div class="site">
+
+    <!-- ── HOME ─────────────────────────────────── -->
+    <div class="page active" data-page="home">
+      <div class="page-left">
+        <div class="hero-titles">
+          <div class="hero-word w1">TEAM</div>
+          <div class="hero-word w2">AERIAL</div>
+        </div>
+        <div class="page-sub">
+          <p class="page-tagline">Autonomous In-Flight<br/>Battery Replacement.</p>
+          <div class="btn-ring-wrap">
+            <button class="ghost-btn" data-goto="about">Learn more →</button>
+          </div>
+        </div>
+      </div>
+      <div class="page-right">
+        <div class="drone-stage">
+          <div class="drone-glow"></div>
+          <video class="drone-art" src="drone_video_pingpong.mp4" poster="drone_poster.jpg"
+            autoplay muted playsinline loop></video>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ABOUT ─────────────────────────────────── -->
+    <div class="page" data-page="about">
+      <div class="page-left">
+        <div class="hero-titles">
+          <div class="hero-word w1">ABOUT</div>
+        </div>
+        <div class="page-sub">
+          <p class="page-lead">Building a mid-air battery exchange system that turns short-flight drones into persistent autonomous aircraft.</p>
+          <div class="about-highlight-card">
+            <span class="about-highlight-label">Why it matters</span>
+            <p>Emergency response, infrastructure inspection, and wide-area monitoring all suffer when a drone has to land every half hour. We are designing the support layer that keeps the mission alive.</p>
+          </div>
+        </div>
+      </div>
+      <div class="page-right padded">
+        <div class="about-top-grid">
+          <section class="about-panel about-panel-hero">
+            <span class="about-section-title">The Core Idea</span>
+            <h2 class="about-main-headline">One drone flies the mission. Another keeps it powered.</h2>
+            <p class="about-body">Instead of treating low battery as the end of a sortie, Team AERIAL treats it as a handoff event. Our service drone intercepts the active UAV, aligns in flight, swaps the battery pack, and releases the aircraft back to work without a landing cycle.</p>
+          </section>
+          <section class="about-stats">
+            <div class="about-stat">
+              <span class="about-stat-value">20-40</span>
+              <span class="about-stat-label">minutes of typical UAV endurance today</span>
+            </div>
+            <div class="about-stat">
+              <span class="about-stat-value">0</span>
+              <span class="about-stat-label">required landings during a successful swap</span>
+            </div>
+            <div class="about-stat">
+              <span class="about-stat-value">1</span>
+              <span class="about-stat-label">autonomous support loop for persistent flight</span>
+            </div>
+          </section>
+        </div>
+        <div class="about-story-grid">
+          <section class="about-panel">
+            <span class="about-section-title">The Problem</span>
+            <p class="about-body">Modern UAVs still operate on a stop-and-start rhythm. Every battery change means lost coverage, lost time, and extra human coordination. For search and rescue, remote inspection, and persistent sensing, that interruption is the mission bottleneck.</p>
+          </section>
+          <section class="about-panel">
+            <span class="about-section-title">What Makes Us Different</span>
+            <p class="about-body">Earlier concepts often relied on dropping packs between aircraft or using simplified transfer assumptions. We focus on rigid docking and controlled mechanical exchange, because reliability matters more than novelty theater when two drones are meeting in open air.</p>
+          </section>
+        </div>
+        <section class="about-process">
+          <span class="about-section-title">How It Works</span>
+          <div class="feature-list">
+            <div class="feat">
+              <span class="feat-num">01</span>
+              <div>
+                <strong>Detect and rendezvous</strong>
+                <p>The service drone identifies a low-power mission aircraft, plans an intercept, and approaches with vision-guided relative positioning.</p>
+              </div>
+            </div>
+            <div class="feat">
+              <span class="feat-num">02</span>
+              <div>
+                <strong>Dock with control authority intact</strong>
+                <p>Both vehicles maintain a stable flight envelope while the docking interface constrains alignment and absorbs small motion errors.</p>
+              </div>
+            </div>
+            <div class="feat">
+              <span class="feat-num">03</span>
+              <div>
+                <strong>Exchange the battery pack</strong>
+                <p>A custom mechanism ejects the depleted pack and seats a fresh battery quickly, with geometry doing most of the alignment work.</p>
+              </div>
+            </div>
+            <div class="feat">
+              <span class="feat-num">04</span>
+              <div>
+                <strong>Return to mission</strong>
+                <p>After verification and release, the mission drone resumes its task while the service platform resets for the next support cycle.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="about-story-grid">
+          <section class="about-panel">
+            <span class="about-section-title">Research Focus</span>
+            <p class="about-body">The project brings together controls, perception, mechanical design, and systems integration. The hard part is not any one subsystem by itself, but making all of them cooperate inside a very small error budget.</p>
+          </section>
+          <section class="about-panel about-panel-accent">
+            <span class="about-section-title">Mission Outcome</span>
+            <p class="about-body">If we can make in-flight battery replacement dependable, we unlock longer-endurance UAV operations without redesigning every mission aircraft around a larger battery or a full charging station.</p>
+          </section>
+        </div>
+        <div class="about-pills">
+          <span>Autonomous Systems</span>
+          <span>UAV Engineering</span>
+          <span>Battery Exchange</span>
+          <span>Computer Vision</span>
+          <span>Flight Controls</span>
+          <span>Mechanical Design</span>
+          <span>Systems Integration</span>
+        </div>
+        <div class="about-closing-note">
+          <span class="about-section-title">Built By Team AERIAL</span>
+          <p class="about-body muted">We are approaching endurance as a systems problem: not by asking one drone to do everything, but by designing a coordinated aerial support architecture that scales with the mission.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RESEARCH ───────────────────────────────── -->
+    <div class="page" data-page="research">
+      <div class="page-left">
+        <div class="hero-titles research-titles">
+          <div class="hero-word w1 research-word">RESEARCH</div>
+        </div>
+        <div class="page-sub">
+          <p class="rq-quote">"Is it possible to autonomously replace the battery of a rotor-based UAV while it remains in flight?"</p>
+        </div>
+      </div>
+      <div class="page-right padded">
+        <div class="blog-posts">
+
+          <article class="blog-post">
+            <div class="post-meta">
+              <span class="post-date">Apr 2025</span>
+              <span class="post-tag">Simulation</span>
+            </div>
+            <h3 class="post-title">First Successful Physical Docking Simulation</h3>
+            <p class="post-excerpt">Our simulation framework achieved a 94% docking success rate in controlled-condition trials, validating the relative localization pipeline and approach geometry. The service drone consistently closed to within 12mm of the target docking port before initiating latch engagement.</p>
+            <a href="#" class="post-link">Read more →</a>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-meta">
+              <span class="post-date">Mar 2025</span>
+              <span class="post-tag">Hardware</span>
+            </div>
+            <h3 class="post-title">Battery Transfer Mechanism: Prototype v1 Complete</h3>
+            <p class="post-excerpt">The mechanical subteam completed the first prototype of the battery gripper. The design uses a passive latch system requiring no torque sensing — the pack is ejected by spring force and the fresh battery clicks into place under its own geometry. Bench testing showed 100% latch success across 40 trials.</p>
+            <a href="#" class="post-link">Read more →</a>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-meta">
+              <span class="post-date">Feb 2025</span>
+              <span class="post-tag">Controls</span>
+            </div>
+            <h3 class="post-title">Cooperative Control Strategy Finalized</h3>
+            <p class="post-excerpt">After benchmarking three coordination architectures, the controls subteam selected a leader-follower strategy for the docking phase. The mission drone holds a fixed hover while the service drone executes approach corrections in real time using a PD controller tuned in Gazebo. Wind rejection tests are ongoing.</p>
+            <a href="#" class="post-link">Read more →</a>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-meta">
+              <span class="post-date">Jan 2025</span>
+              <span class="post-tag">Research</span>
+            </div>
+            <h3 class="post-title">Literature Review: State of In-Flight Battery Replacement</h3>
+            <p class="post-excerpt">A review of 40+ papers reveals no prior work has achieved reliable physical docking for battery transfer. Existing approaches rely on drop-and-catch or tethered methods, each with significant reliability and safety drawbacks. Our docking-first design represents a genuine gap in the literature.</p>
+            <a href="#" class="post-link">Read more →</a>
+          </article>
+
+          <article class="blog-post">
+            <div class="post-meta">
+              <span class="post-date">Dec 2024</span>
+              <span class="post-tag">Team</span>
+            </div>
+            <h3 class="post-title">Team AERIAL Officially Formed</h3>
+            <p class="post-excerpt">12 students from the A. James Clark School of Engineering joined forces under the UMD Gemstone Honors Program to tackle one of the most open problems in UAV autonomy. Subteams for controls, mechanical design, perception, and systems integration were established in the first two weeks.</p>
+            <a href="#" class="post-link">Read more →</a>
+          </article>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TEAM ───────────────────────────────────── -->
+    <div class="page" data-page="team">
+      <div class="page-left">
+        <div class="hero-titles">
+          <div class="hero-word w1">THE</div>
+          <div class="hero-word w2">TEAM</div>
+        </div>
+        <div class="page-sub">
+          <p class="page-lead">12 researchers across robotics, aerospace, and autonomous systems.</p>
+        </div>
+      </div>
+      <div class="page-right padded">
+        <div class="team-grid">
+          <div class="member"><div class="av">AM</div><span>Abdul Mateen S.</span></div>
+          <div class="member"><div class="av">JG</div><span>Jessica Gogol</span></div>
+          <div class="member"><div class="av">SJ</div><span>Siddharth Jain</span></div>
+          <div class="member"><div class="av">NM</div><span>Nithin Manikandan</span></div>
+          <div class="member"><div class="av">JR</div><span>John Ritsko</span></div>
+          <div class="member"><div class="av">XS</div><span>Xochilt Saavedra</span></div>
+          <div class="member"><div class="av">KI</div><span>Krishay Iyer</span></div>
+          <div class="member"><div class="av">JT</div><span>Jayesh Tiwari</span></div>
+          <div class="member"><div class="av">SH</div><span>Shane Howard</span></div>
+          <div class="member"><div class="av">CA</div><span>Cristan Allen</span></div>
+          <div class="member"><div class="av">CS</div><span>Connor Smith</span></div>
+          <div class="member"><div class="av">BS</div><span>Bassil Shalaby</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONTACT ────────────────────────────────── -->
+    <div class="page" data-page="contact">
+      <div class="page-left">
+        <div class="hero-titles">
+          <div class="hero-word w1">CONTACT</div>
+        </div>
+        <div class="page-sub">
+          <p class="page-lead">Have a question or want to collaborate?</p>
+        </div>
+      </div>
+      <div class="page-right padded contact-right">
+        <a href="mailto:temp@umd.edu" class="contact-email">temp@umd.edu →</a>
+        <div class="contact-details">
+          <div class="cd-item">
+            <span class="cd-label">Location</span>
+            <p>University of Maryland, College Park</p>
+          </div>
+          <div class="cd-item">
+            <span class="cd-label">Program</span>
+            <p>Gemstone Honors Program</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /site -->
+
+  <script src="script.js"></script>
+</body>
+</html>
