@@ -16,7 +16,7 @@
 
 /* ── Reset ────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; overflow: hidden; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
 body {
   font-family: var(--font);
   background:
@@ -25,10 +25,12 @@ body {
     var(--palladian);
   color: var(--abyssal);
   line-height: 1.6;
+  overflow-x: hidden;
 }
 a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
 em { font-style: italic; }
+video, img { display: block; max-width: 100%; }
 
 /* ── NAV ──────────────────────────────────────── */
 #navbar {
@@ -535,9 +537,12 @@ em { font-style: italic; }
 @media (max-width: 1100px) {
   .about-top-grid,
   .about-story-grid,
-  .feature-list,
-  .team-grid {
+  .feature-list {
     grid-template-columns: 1fr;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .feat {
@@ -557,36 +562,69 @@ em { font-style: italic; }
   }
 
   .site {
-    height: 100dvh;
+    width: 100%;
+    min-height: 100dvh;
+    height: auto;
+    overflow: visible;
   }
 
   #navbar {
-    top: 1rem;
+    top: 0.75rem;
     width: calc(100% - 1.5rem);
   }
 
   .nav-pill {
     width: 100%;
-    justify-content: space-between;
-    padding: 0.5rem 0.7rem;
-    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.65rem 0.8rem 0.8rem;
+    gap: 0.6rem 0.8rem;
+    border-radius: 28px;
   }
 
   .nav-left,
   .nav-right {
-    gap: 0.8rem;
+    flex: 1 1 calc(50% - 0.4rem);
+    justify-content: space-between;
+    gap: 0.4rem;
     padding: 0;
   }
 
+  .nav-logo {
+    order: -1;
+    width: 100%;
+    text-align: center;
+    padding: 0.65rem 1rem;
+  }
+
+  .nav-left a,
+  .nav-right a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.6rem;
+    padding: 0.35rem 0.2rem;
+    font-size: 0.72rem;
+    text-align: center;
+    flex: 1 1 0;
+  }
+
   .page {
+    position: absolute;
     flex-direction: column;
     overflow-y: auto;
+    min-height: 100dvh;
+  }
+
+  .page.active {
+    position: relative;
   }
 
   .page-left {
     flex: 0 0 auto;
-    padding: 6.5rem 1.25rem 1.25rem;
+    padding: 8.1rem 1.25rem 1.25rem;
     gap: 1.1rem;
+    overflow: visible;
   }
 
   .page-right,
@@ -594,6 +632,10 @@ em { font-style: italic; }
     display: block;
     padding: 0 1.25rem 2rem;
     overflow: visible;
+  }
+
+  .page-right.padded {
+    -webkit-overflow-scrolling: touch;
   }
 
   .page-lead,
@@ -615,11 +657,102 @@ em { font-style: italic; }
     font-size: clamp(2.4rem, 11vw, 4.2rem);
   }
 
+  .page-tagline {
+    font-size: clamp(1rem, 4.4vw, 1.25rem);
+  }
+
+  .page[data-page="home"] .page-right {
+    padding-top: 0.25rem;
+  }
+
+  .drone-stage {
+    width: min(100%, 28rem);
+    min-height: 18rem;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+  }
+
+  .drone-glow {
+    width: 88%;
+    height: 88%;
+  }
+
+  .about-panel,
+  .about-process {
+    padding: 1.1rem;
+  }
+
   .about-main-headline {
     max-width: none;
   }
 
+  .post-excerpt {
+    max-width: none;
+  }
+
+  .contact-right {
+    gap: 1.5rem;
+  }
+
+  .contact-details {
+    gap: 1.25rem;
+    flex-direction: column;
+  }
+
   .blog-posts {
     padding-bottom: 1rem;
+  }
+}
+
+@media (max-width: 560px) {
+  #navbar {
+    width: calc(100% - 1rem);
+  }
+
+  .nav-pill {
+    padding: 0.55rem 0.65rem 0.7rem;
+  }
+
+  .nav-left,
+  .nav-right {
+    gap: 0.3rem;
+  }
+
+  .page-left {
+    padding: 8rem 1rem 1rem;
+  }
+
+  .page-right,
+  .page-right.padded {
+    padding: 0 1rem 1.5rem;
+  }
+
+  .w1 {
+    font-size: clamp(2.5rem, 14vw, 3.8rem);
+  }
+
+  .w2 {
+    font-size: clamp(3.2rem, 16vw, 4.8rem);
+  }
+
+  .page[data-page="research"] .w1,
+  .page[data-page="contact"] .w1 {
+    font-size: clamp(2.1rem, 10vw, 3.2rem);
+  }
+
+  .drone-stage {
+    min-height: 15rem;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .member span {
+    font-size: 0.78rem;
+  }
+
+  .contact-email {
+    font-size: clamp(1rem, 7vw, 1.35rem);
   }
 }
