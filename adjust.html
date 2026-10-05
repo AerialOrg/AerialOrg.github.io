@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Headshot &amp; Drone Adjuster</title>
+<style>
+  :root{--flame:#FFB162;--abyssal:#1B2632;--pal:#F8F6E9;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--pal);color:var(--abyssal);padding:1.5rem;}
+  h1{font-size:1.2rem;margin:.2rem 0 .3rem;}
+  p.help{font-size:.85rem;color:#555;margin-bottom:1rem;max-width:70ch;}
+  button{font:inherit;font-size:.75rem;padding:.3rem .6rem;border:1px solid #bbb;border-radius:8px;background:#fff;cursor:pointer;}
+  button:hover{background:#f0f0f0;}
+  .primary{background:var(--abyssal);color:#fff;border:none;padding:.5rem .9rem;font-size:.85rem;}
+  .hint{font-size:.7rem;color:#777;}
+  textarea{width:100%;height:150px;margin-top:1rem;font-family:ui-monospace,monospace;font-size:.72rem;padding:.6rem;border:1px solid #ccc;border-radius:8px;}
+
+  /* ---- Drone panel ---- */
+  .drone-panel{display:flex;gap:1.2rem;flex-wrap:wrap;align-items:flex-start;margin-bottom:2.2rem;}
+  .frame-wrap{flex:1;min-width:320px;border:1px solid #ccc;border-radius:12px;overflow:auto;background:#fff;}
+  iframe{width:1200px;height:680px;border:0;display:block;}
+  .drone-ctrls{width:300px;flex:none;display:flex;flex-direction:column;gap:.8rem;background:#fff;border:1px solid #ddd;border-radius:12px;padding:1rem;position:sticky;top:1rem;}
+  .drone-ctrls label{font-size:.78rem;display:flex;flex-direction:column;gap:.25rem;}
+  .drone-ctrls .val{font-weight:600;}
+  .drone-ctrls input[type=range]{width:100%;}
+  .btnrow{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;}
+
+  /* ---- Headshot grid ---- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.4rem;}
+  .card{background:#fff;border:1px solid #ddd;border-radius:14px;padding:1rem;display:flex;flex-direction:column;align-items:center;gap:.6rem;}
+  .name{font-size:.8rem;font-weight:600;text-align:center;}
+  .circle{width:200px;height:200px;border-radius:50%;overflow:hidden;position:relative;border:2px solid var(--flame);background:#000;cursor:grab;touch-action:none;}
+  .circle.dragging{cursor:grabbing;}
+  .circle img{position:absolute;user-select:none;-webkit-user-drag:none;pointer-events:none;}
+  .circle::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(to right,transparent 49%,rgba(255,80,0,.5) 49%,rgba(255,80,0,.5) 51%,transparent 51%),
+               linear-gradient(to bottom,transparent 49%,rgba(0,150,255,.5) 49%,rgba(0,150,255,.5) 51%,transparent 51%);
+    opacity:0;transition:opacity .2s;}
+  .circle.guides::after{opacity:1;}
+  .row{display:flex;align-items:center;gap:.5rem;width:100%;font-size:.72rem;}
+  .bar{position:sticky;top:0;background:var(--pal);padding:.6rem 0 1rem;z-index:5;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+
+<h1>Team Drone</h1>
+<p class="help">Below is the <b>real Team section</b>. Use the sliders to size the drone and set where it flies — the live page updates as you drag. <b>Up bound</b> is the top turn-around (mentors / librarian row); <b>Down bound</b> is the bottom turn-around (Jayesh's row). When happy, click <b>Copy drone values</b> and paste back to Claude.</p>
+<div class="drone-panel">
+  <div class="frame-wrap">
+    <iframe id="site" src="index.html#team"></iframe>
+  </div>
+  <div class="drone-ctrls">
+    <label>Frame size <span class="val" id="vFrame"></span>
+      <input type="range" id="cFrame" min="12" max="60" step="0.5"></label>
+    <label>Drone zoom <span class="val" id="vZoom"></span>
+      <input type="range" id="cZoom" min="1" max="4.5" step="0.05"></label>
+    <label>Up bound (top turn) <span class="val" id="vUp"></span>
+      <input type="range" id="cUp" min="0" max="100" step="1"></label>
+    <label>Down bound (bottom turn) <span class="val" id="vDown"></span>
+      <input type="range" id="cDown" min="0" max="100" step="1"></label>
+    <label>Speed (one up+down) <span class="val" id="vSpeed"></span>
+      <input type="range" id="cSpeed" min="2" max="24" step="0.5"></label>
+    <div class="btnrow">
+      <button class="primary" id="droneCopy">Copy drone values</button>
+      <button id="droneReset">Reset</button>
+      <button id="rescroll">Jump to Team</button>
+    </div>
+    <span class="hint" id="droneStatus"></span>
+    <p class="hint">Tip: the drone shows only at desktop width — the preview is 1200px wide, scroll the panel if needed.</p>
+  </div>
+</div>
+
+<h1>Headshots</h1>
+<p class="help">Drag inside a circle to pan; scroll on it or use the slider to zoom; <b>Guides</b> toggles a crosshair. Click <b>Copy values</b> and paste back to Claude.</p>
+<div class="bar">
+  <button class="primary" id="copy">Copy values</button>
+  <button id="toggleGuides">Toggle all guides</button>
+  <button id="reset">Reset all</button>
+  <span class="hint" id="status"></span>
+</div>
+<div class="grid" id="grid"></div>
+<textarea id="out" readonly placeholder="Copied values appear here…"></textarea>
+
+<script>
+/* ============ TEAM DRONE (live over the real page) ============ */
+const DDEF={frame:30, zoom:2.2, up:12, down:88, speed:8};
+const drone=Object.assign({}, DDEF);
+try{Object.assign(drone, JSON.parse(localStorage.getItem("droneadj")||"{}"));}catch(e){}
+const site=document.getElementById("site");
+const C={frame:cFrame,zoom:cZoom,up:cUp,down:cDown,speed:cSpeed};
+const V={frame:vFrame,zoom:vZoom,up:vUp,down:vDown,speed:vSpeed};
+
+function droneEl(){ try{return site.contentDocument.querySelector(".team-drone-mover");}catch(e){return null;} }
+function applyDrone(){
+  const el=droneEl(); if(!el) return;
+  el.style.setProperty("--frame", drone.frame+"rem");
+  el.style.setProperty("--zoom", drone.zoom);
+  el.style.setProperty("--up", drone.up+"%");
+  el.style.setProperty("--down", drone.down+"%");
+  el.style.setProperty("--speed", drone.speed+"s");
+}
+function dSave(){try{localStorage.setItem("droneadj",JSON.stringify(drone));}catch(e){}}
+function dSync(){
+  for(const k in C){C[k].value=drone[k];}
+  V.frame.textContent=drone.frame+"rem"; V.zoom.textContent=drone.zoom.toFixed(2)+"×";
+  V.up.textContent=drone.up+"%"; V.down.textContent=drone.down+"%"; V.speed.textContent=drone.speed+"s";
+  applyDrone();
+}
+for(const k in C){C[k].addEventListener("input",()=>{drone[k]=parseFloat(C[k].value);dSync();dSave();});}
+droneReset.onclick=()=>{Object.assign(drone,DDEF);dSync();dSave();};
+function toTeam(){ try{const d=site.contentDocument.getElementById("team"); if(d) d.scrollIntoView();}catch(e){} }
+rescroll.onclick=toTeam;
+site.addEventListener("load",()=>{ setTimeout(()=>{toTeam(); applyDrone();}, 300); });
+droneCopy.onclick=async()=>{
+  const txt=`  --frame: ${drone.frame}rem;\n  --zoom: ${drone.zoom};\n  --up: ${drone.up}%;\n  --down: ${drone.down}%;\n  --speed: ${drone.speed}s;`;
+  out.value=txt;
+  try{await navigator.clipboard.writeText(txt);droneStatus.textContent="Copied — paste to Claude.";}
+  catch(e){droneStatus.textContent="Select the text below to copy.";}
+};
+dSync();
+
+/* ============ HEADSHOTS ============ */
+const SRC={
+ cristian:["Cristian.HEIC",0.454,0.500,0.260], raghav:["Raghav.HEIC",0.511,0.410,0.260],
+ jessica:["Jessica.HEIC",0.502,0.518,0.260], shane:["Shane.HEIC",0.489,0.515,0.260],
+ krishay:["Krishay.HEIC",0.468,0.517,0.280], siddharth:["Sid.HEIC",0.489,0.541,0.260],
+ nithin:["Nithin.HEIC",0.523,0.475,0.235], john:["John.HEIC",0.450,0.410,0.260],
+ xochilt:["Xochilt.HEIC",0.510,0.452,0.305], abdul:["Abdul.HEIC",0.495,0.459,0.260],
+ bassil:["Bassil.HEIC",0.489,0.378,0.275], connor:["Connor.HEIC",0.455,0.474,0.260],
+ jayesh:["Jayesh.HEIC",0.490,0.458,0.260], timothy:["Timothy.jpg",0.498,0.419,0.825],
+ donald:["Donald.jpg",0.454,0.330,0.640], pam:["Pam.png",0.520,0.454,0.860],
+};
+const NAMES={cristian:"Cristian Allen",raghav:"Raghav Goel",jessica:"Jessica Gogol",shane:"Shane Howard",
+ krishay:"Krishay Iyer",siddharth:"Siddharth Jain",nithin:"Nithin Manikandan",john:"John Ritsko",
+ xochilt:"Xochilt Saavedra",abdul:"Abdul Mateen Sayed",bassil:"Bassil Shalaby",connor:"Connor Smith",
+ jayesh:"Jayesh Tiwari",timothy:"Dr. Timothy Horiuchi",donald:"Dr. Donald Costello",pam:"Dr. Pamela McClanahan"};
+const CC=200;
+const state={};
+try{const s=JSON.parse(localStorage.getItem("hsadj")||"{}");Object.assign(state,s);}catch(e){}
+
+function layout(k){
+  const st=state[k]; if(!st.nw) return;
+  const kpx=CC/(st.scale*st.nh);
+  st.img.style.width=(st.nw*kpx)+"px"; st.img.style.height=(st.nh*kpx)+"px";
+  st.img.style.left=(CC/2 - st.cx*st.nw*kpx)+"px";
+  st.img.style.top =(CC/2 - st.cy*st.nh*kpx)+"px";
+}
+function save(){const o={};for(const k in state){const s=state[k];o[k]={cx:s.cx,cy:s.cy,scale:s.scale};}
+  try{localStorage.setItem("hsadj",JSON.stringify(o));}catch(e){}}
+
+function makeCard(k){
+  const [fn,cx0,cy0,sc0]=SRC[k];
+  const saved=state[k]||{};
+  state[k]={cx:saved.cx??cx0, cy:saved.cy??cy0, scale:saved.scale??sc0, nw:0,nh:0,img:null};
+  const card=document.createElement("div");card.className="card";
+  card.innerHTML=`<div class="name">${NAMES[k]}</div>
+    <div class="circle" data-k="${k}"><img src="photos/src/${k}.jpg" alt=""></div>
+    <div class="row">Zoom <input type="range" min="0.12" max="1" step="0.005" data-zoom="${k}"></div>
+    <div class="row"><button data-reset="${k}">Reset</button><button data-guide="${k}">Guides</button></div>`;
+  grid.appendChild(card);
+  const circle=card.querySelector(".circle"), img=card.querySelector("img"),
+        zoom=card.querySelector("[data-zoom]");
+  state[k].img=img; zoom.value=state[k].scale;
+  img.onload=()=>{state[k].nw=img.naturalWidth;state[k].nh=img.naturalHeight;layout(k);};
+  let drag=null;
+  circle.addEventListener("pointerdown",e=>{drag={x:e.clientX,y:e.clientY};circle.classList.add("dragging");circle.setPointerCapture(e.pointerId);});
+  circle.addEventListener("pointermove",e=>{
+    if(!drag)return; const st=state[k]; const kpx=CC/(st.scale*st.nh);
+    st.cx-=(e.clientX-drag.x)/(st.nw*kpx); st.cy-=(e.clientY-drag.y)/(st.nh*kpx);
+    drag={x:e.clientX,y:e.clientY}; layout(k);
+  });
+  const end=()=>{if(drag){drag=null;circle.classList.remove("dragging");save();}};
+  circle.addEventListener("pointerup",end); circle.addEventListener("pointercancel",end);
+  circle.addEventListener("wheel",e=>{e.preventDefault();const st=state[k];
+    st.scale=Math.min(1,Math.max(0.12, st.scale*(e.deltaY>0?1.05:0.95)));
+    zoom.value=st.scale; layout(k); save();},{passive:false});
+  zoom.addEventListener("input",()=>{state[k].scale=parseFloat(zoom.value);layout(k);save();});
+  card.querySelector("[data-reset]").onclick=()=>{state[k].cx=cx0;state[k].cy=cy0;state[k].scale=sc0;zoom.value=sc0;layout(k);save();};
+  card.querySelector("[data-guide]").onclick=()=>circle.classList.toggle("guides");
+}
+Object.keys(SRC).forEach(makeCard);
+toggleGuides.onclick=()=>document.querySelectorAll(".circle").forEach(c=>c.classList.toggle("guides"));
+reset.onclick=()=>{localStorage.removeItem("hsadj");location.reload();};
+copy.onclick=async()=>{
+  let lines=[];
+  for(const k in SRC){const s=state[k];const fn=SRC[k][0];
+    lines.push(` "${k}":`.padEnd(13)+`("${fn}",${s.cx.toFixed(3)},${s.cy.toFixed(3)},${s.scale.toFixed(3)},1.0),`);}
+  out.value=lines.join("\n");
+  try{await navigator.clipboard.writeText(out.value);status.textContent="Copied — paste to Claude.";}
+  catch(e){status.textContent="Select the text below to copy.";}
+};
+</script>
+</body>
+</html>
