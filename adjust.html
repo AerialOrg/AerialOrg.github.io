@@ -71,7 +71,23 @@
   </div>
 </div>
 
-<h1>Headshots</h1>
+<h1>Headshot circle size</h1>
+<p class="help">Resize the team circles — the faces scale with them. Changes show live in the embedded Team view above. Then <b>Copy circle sizes</b> and paste back to Claude.</p>
+<div class="drone-panel">
+  <div class="drone-ctrls" style="width:100%;max-width:520px;">
+    <label>Student circle size <span class="val" id="vAvS"></span>
+      <input type="range" id="cAvS" min="4" max="16" step="0.25"></label>
+    <label>Mentor / librarian circle size <span class="val" id="vAvM"></span>
+      <input type="range" id="cAvM" min="4" max="18" step="0.25"></label>
+    <div class="btnrow">
+      <button class="primary" id="avCopy">Copy circle sizes</button>
+      <button id="avReset">Reset</button>
+      <span class="hint" id="avStatus"></span>
+    </div>
+  </div>
+</div>
+
+<h1>Headshots (crop &amp; position)</h1>
 <p class="help">Drag inside a circle to pan; scroll on it or use the slider to zoom; <b>Guides</b> toggles a crosshair. Click <b>Copy values</b> and paste back to Claude.</p>
 <div class="bar">
   <button class="primary" id="copy">Copy values</button>
@@ -119,6 +135,22 @@ droneCopy.onclick=async()=>{
   catch(e){droneStatus.textContent="Select the text below to copy.";}
 };
 dSync();
+
+/* ============ HEADSHOT CIRCLE SIZE (live on iframe) ============ */
+const AVDEF={s:6.5,m:7.5}; const av=Object.assign({},AVDEF);
+try{Object.assign(av,JSON.parse(localStorage.getItem("avadj")||"{}"));}catch(e){}
+function applyAv(){ try{const d=site.contentDocument.documentElement;
+  d.style.setProperty("--av-student",av.s+"rem"); d.style.setProperty("--av-mentor",av.m+"rem");}catch(e){} }
+function avSync(){ cAvS.value=av.s; cAvM.value=av.m; vAvS.textContent=av.s+"rem"; vAvM.textContent=av.m+"rem"; applyAv(); }
+function avSave(){try{localStorage.setItem("avadj",JSON.stringify(av));}catch(e){}}
+cAvS.addEventListener("input",()=>{av.s=parseFloat(cAvS.value);avSync();avSave();});
+cAvM.addEventListener("input",()=>{av.m=parseFloat(cAvM.value);avSync();avSave();});
+avReset.onclick=()=>{Object.assign(av,AVDEF);avSync();avSave();};
+avCopy.onclick=async()=>{const t=`  --av-student: ${av.s}rem;\n  --av-mentor: ${av.m}rem;`;
+  out.value=t; try{await navigator.clipboard.writeText(t);avStatus.textContent="Copied — paste to Claude.";}
+  catch(e){avStatus.textContent="Select the text below to copy.";}};
+site.addEventListener("load",()=>setTimeout(applyAv,350));
+avSync();
 
 /* ============ HEADSHOTS ============ */
 const SRC={

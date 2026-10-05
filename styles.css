@@ -12,6 +12,8 @@
   --radius: 14px;
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --av-student: 8rem;     /* student headshot circle size (tunable in adjust.html) */
+  --av-mentor: 9.5rem;    /* mentor/librarian headshot circle size */
 }
 
 /* ── Reset ────────────────────────────────────── */
@@ -438,6 +440,13 @@ body.at-home .site-header { opacity: 1; }
 .about-panel-full { width: 100%; margin-bottom: 1rem; }
 .about-panel-full .about-main-headline { max-width: 26ch; }
 .about-panel-full .about-body { max-width: 72ch; }
+/* Why it matters — full-width highlight between the two pairs */
+.about-why {
+  background:
+    radial-gradient(circle at top right, rgba(255,177,98,0.22), transparent 46%),
+    linear-gradient(135deg, rgba(255,177,98,0.16), rgba(255,255,255,0.82));
+  border-color: rgba(163,81,57,0.14);
+}
 .about-panel-accent {
   background:
     linear-gradient(135deg, rgba(44,59,77,0.96), rgba(27,38,50,0.9));
@@ -527,6 +536,15 @@ body.at-home .site-header { opacity: 1; }
   transition: color 0.25s ease, transform 0.35s var(--ease-smooth), border-color 0.25s ease;
 }
 .contact-email:hover { color: var(--truffle); transform: translateY(-2px); }
+.email-asterisk { font-size: 0.5em; color: var(--truffle); vertical-align: super; font-weight: 700; }
+
+/* fixed footnote, bottom-left of the page */
+.email-footnote {
+  position: fixed; left: 0.9rem; bottom: 0.7rem; z-index: 50;
+  font-size: 0.62rem; line-height: 1.35; color: rgba(27,38,50,0.6);
+  max-width: 62vw; pointer-events: none;
+}
+.email-footnote span { color: var(--truffle); font-weight: 700; }
 .contact-details { display: flex; gap: 3rem; flex-wrap: wrap; }
 .cd-item {
   display: flex; flex-direction: column; gap: 0.3rem;
@@ -707,8 +725,9 @@ body.at-home .site-header { opacity: 1; }
 }
 .mentor-row {
   display: flex; justify-content: center; flex-wrap: wrap;
-  gap: 2.5rem; width: 100%;
-  margin-bottom: 2.6rem;
+  gap: 3rem; width: 100%;
+  max-width: 40rem;            /* keep the 3 mentors grouped, not edge-to-edge */
+  margin: 0 auto 2.6rem;
   padding-bottom: 2.2rem;
   border-bottom: 1px solid rgba(27,38,50,0.1);
 }
@@ -723,7 +742,7 @@ body.at-home .site-header { opacity: 1; }
 }
 .person:hover { transform: translateY(-4px); }
 .person-av {
-  width: 6.5rem; height: 6.5rem; border-radius: 50%;
+  width: var(--av-student); height: var(--av-student); border-radius: 50%;
   overflow: hidden;
   background:
     radial-gradient(circle at 50% 38%, rgba(255,177,98,0.35), transparent 60%),
@@ -733,7 +752,7 @@ body.at-home .site-header { opacity: 1; }
 }
 .person-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .person:hover .person-av { transform: scale(1.04); box-shadow: 0 16px 30px rgba(27,38,50,0.16); border-color: var(--flame); }
-.mentor-row .person-av { width: 7.5rem; height: 7.5rem; }
+.mentor-row .person-av { width: var(--av-mentor); height: var(--av-mentor); }
 .person-name {
   font-family: var(--font2); font-size: 0.82rem; font-weight: 600;
   color: var(--abyssal); line-height: 1.25;
