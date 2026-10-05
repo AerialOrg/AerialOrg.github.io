@@ -538,11 +538,11 @@ body.at-home .site-header { opacity: 1; }
 .contact-email:hover { color: var(--truffle); transform: translateY(-2px); }
 .email-asterisk { font-size: 0.5em; color: var(--truffle); vertical-align: super; font-weight: 700; }
 
-/* fixed footnote, bottom-left of the page */
+/* footnote at the very bottom-right of the page (scrolls away, not fixed) */
 .email-footnote {
-  position: fixed; left: 0.9rem; bottom: 0.7rem; z-index: 50;
+  text-align: right;
+  padding: 0.6rem 1.2rem 1rem;
   font-size: 0.62rem; line-height: 1.35; color: rgba(27,38,50,0.6);
-  max-width: 62vw; pointer-events: none;
 }
 .email-footnote span { color: var(--truffle); font-weight: 700; }
 .contact-details { display: flex; gap: 3rem; flex-wrap: wrap; }
