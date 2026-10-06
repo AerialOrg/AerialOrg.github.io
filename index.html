@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Team AERIAL</title>
-  <link rel="stylesheet" href="styles.css?v=6" />
+  <link rel="stylesheet" href="styles.css?v=8" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -78,37 +78,40 @@
           <div class="hero-word w1">ABOUT</div>
         </div>
         <div class="page-sub">
-          <p class="page-lead">Building an autonomous, mid-air transfer system so drones can hand off payloads in flight without landing or interruption.</p>
+          <p class="page-lead">We're figuring out how two drones can swap a payload in mid-air, so a mission never has to stop just to change hands.</p>
         </div>
       </div>
       <div class="page-right padded">
         <section class="about-panel about-panel-hero about-panel-full">
           <span class="about-section-title">The Core Idea</span>
           <h2 class="about-main-headline">One drone carries the load. Another meets it in the air.</h2>
-          <p class="about-body">Building an autonomous, mid-air transfer system so drones can hand off payloads in flight without landing or interruption. Two similar drones align in flight and exchange mass directly: a controlled transfer that keeps both aircraft in continuous operation.</p>
+          <p class="about-body">Instead of landing to hand off a payload, two drones fly up to each other, line up, and pass the load across while both stay in the air. Because either drone can give or receive, the handoff works in both directions, and neither one ever has to touch the ground.</p>
         </section>
         <div class="about-story-grid">
           <section class="about-panel">
             <span class="about-section-title">The Problem</span>
-            <p class="about-body">Traditionally a drone lands at a ground station to swap its payload, interrupting operations and often impossible where landing isn't viable. For emergency medical delivery, humanitarian aid, and disaster relief, that stop is the bottleneck on range and speed.</p>
+            <p class="about-body">Right now a drone has to land at a station to change its payload. That means lost time, and in a lot of places, like a flood zone or a mountain, there's nowhere safe to land at all. For medical deliveries and disaster relief, that pit stop is exactly what slows everything down.</p>
           </section>
           <section class="about-panel">
             <span class="about-section-title">What Makes Us Different</span>
-            <p class="about-body">Prior work stays mono-directional: bridge and rail mechanisms, and even in-flight battery swaps, move mass one way only. We target a transfer that is fully controlled, <em>bidirectional</em>, and scalable, the gap the literature leaves open.</p>
+            <p class="about-body">The handoff systems we found in the research only move a payload one way, whether it's a bridge, a rail, or an in-flight battery swap. We're after something harder: a transfer that stays fully in control, works <em>both</em> directions, and can scale up.</p>
           </section>
         </div>
         <section class="about-panel about-panel-full about-why">
-          <span class="about-section-title">Why it matters</span>
-          <p class="about-body">Biomedical delivery, humanitarian aid, and disaster relief all break down when a drone must land to swap a payload. We are building the mid-air handoff layer that keeps the mission moving.</p>
+          <span class="about-section-title">Guiding Questions</span>
+          <ul class="about-questions">
+            <li>How do two UAVs align in open air and exchange a payload in either direction while staying stable through the shift in mass and center of gravity?</li>
+            <li>Where does reliable mid-air transfer matter most, and how far could a relay of drones extend range and payload delivery for medical and disaster-relief missions?</li>
+          </ul>
         </section>
         <div class="about-story-grid">
           <section class="about-panel">
             <span class="about-section-title">Research Focus</span>
-            <p class="about-body">Adaptive control for shifting mass and downwash, perception and swarm theory for rendezvous, a bidirectional transfer mechanism, and UAV-to-UAV docking. The hard part is making all four cooperate inside a very small error budget.</p>
+            <p class="about-body">Four pieces have to work together: keeping the drones stable as the weight moves, helping them see and find each other, building the mechanism that actually passes the payload, and getting two aircraft to dock. Each is tricky on its own, and the margin for error when they all run at once is tiny.</p>
           </section>
           <section class="about-panel about-panel-accent">
-            <span class="about-section-title">Mission Outcome</span>
-            <p class="about-body">A scalable foundation for mid-air payload exchange, extending the range and throughput of drone networks for critical biomedical, humanitarian, and disaster-relief operations.</p>
+            <span class="about-section-title">Where This Goes</span>
+            <p class="about-body">If we can make mid-air handoffs reliable, drone networks can cover more ground and move more, without a redesign, which matters most when it's medical supplies or disaster relief on the line.</p>
           </section>
         </div>
       </div>
@@ -128,32 +131,52 @@
       </div>
       <div class="page-right padded">
         <div class="timeline">
-          <div class="tl-line"><div class="tl-progress"></div></div>
+          <div class="tl-line"></div>
 
-          <div class="tl-item" data-step="1">
+          <div class="tl-item">
             <div class="tl-year">Spring<br/>2026</div>
             <div class="tl-dot"></div>
             <div class="tl-card">
               <h3 class="tl-head">Team AERIAL Officially Formed</h3>
-              <p class="tl-detail">Team AERIAL was established under the University of Maryland Gemstone Honors Program, uniting multidisciplinary undergraduate researchers to tackle key technical challenges in unmanned aerial systems.</p>
+              <p class="tl-detail">We came together under UMD's Gemstone Honors Program, a group of undergrads from different majors ready to take on a hard problem in unmanned aerial systems.</p>
             </div>
           </div>
 
-          <div class="tl-item" data-step="2">
+          <div class="tl-item">
             <div class="tl-year">Summer<br/>2026</div>
             <div class="tl-dot"></div>
             <div class="tl-card">
               <h3 class="tl-head">Formalized Idea of Drone Mass Transfer</h3>
-              <p class="tl-detail">The team refined its research focus, formalizing the core concept of autonomous mass transfer and in-air logistics mechanisms to enable continuous UAV operations.</p>
+              <p class="tl-detail">We narrowed our focus and landed on the core idea: autonomous mass transfer between drones, so UAVs can keep working without stopping to swap loads.</p>
             </div>
           </div>
 
-          <div class="tl-item is-now" data-step="3">
+          <div class="tl-item is-now">
             <div class="tl-year"><span class="tl-nowtag">Now</span>Fall<br/>2026</div>
             <div class="tl-dot"></div>
             <div class="tl-card">
               <h3 class="tl-head">Literature Review</h3>
-              <p class="tl-detail">Currently conducting an extensive literature review analyzing existing payload transfer mechanisms, safety protocols, and technical feasibility to establish the foundation for physical prototyping.</p>
+              <p class="tl-detail">We're digging through the existing research on payload transfer, safety, and what's actually feasible, so we build on what's known before we start prototyping.</p>
+            </div>
+          </div>
+
+          <div class="tl-item tl-future" id="tlFuture">
+            <div class="tl-year"><span class="tl-nowtag">Next</span>2027<br/>&amp; on</div>
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <button class="tl-future-toggle" type="button" aria-expanded="false" aria-controls="tlFutureList">
+                <h3 class="tl-head">The Future</h3>
+                <span class="tl-future-hint">Click to expand →</span>
+              </button>
+              <div class="tl-future-list" id="tlFutureList">
+                <div class="tl-fut"><span class="tl-fut-term">Spring 2027</span><span class="tl-fut-title">Research Proposal &amp; Library Awards</span></div>
+                <div class="tl-fut"><span class="tl-fut-term">Summer 2027</span><span class="tl-fut-title">Preliminary Simulation &amp; Design</span></div>
+                <div class="tl-fut"><span class="tl-fut-term">Fall 2027</span><span class="tl-fut-title">Do Good Institute &amp; Ground Testing</span></div>
+                <div class="tl-fut"><span class="tl-fut-term">Spring 2028</span><span class="tl-fut-title">Undergraduate Research Day &amp; Optimization</span></div>
+                <div class="tl-fut"><span class="tl-fut-term">Summer 2028</span><span class="tl-fut-title">Final Design &amp; Testing</span></div>
+                <div class="tl-fut"><span class="tl-fut-term">Fall 2028</span><span class="tl-fut-title">Thesis Draft &amp; Complete Implementation</span></div>
+                <div class="tl-fut"><span class="tl-fut-term">Spring 2029</span><span class="tl-fut-title">Thesis Defense</span></div>
+              </div>
             </div>
           </div>
 
@@ -228,8 +251,12 @@
         </div>
       </div>
       <div class="page-right padded contact-right">
-        <form class="contact-form" id="contactForm" novalidate>
+        <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
           <h2 class="form-title">Ask Us Questions!</h2>
+          <input type="hidden" name="access_key" value="6cb72a84-5d3e-46ae-b486-346ec398eb25" />
+          <input type="hidden" name="name" id="cf-name" />
+          <input type="hidden" name="from_name" value="Team AERIAL Website" />
+          <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <div class="form-grid">
             <div class="form-field">
               <label for="cf-first">First Name <span>*</span></label>
@@ -258,7 +285,7 @@
         </form>
 
         <div class="contact-lower">
-          <a href="mailto:aerial@umd.edu" class="contact-email">aerial@umd.edu<sup class="email-asterisk">*</sup> →</a>
+          <a href="mailto:nmanikan@terpmail.umd.edu" class="contact-email">nmanikan@terpmail.umd.edu →</a>
           <div class="contact-details">
             <div class="cd-item">
               <span class="cd-label">Location</span>
@@ -275,8 +302,8 @@
 
   </div><!-- /site -->
 
-  <p class="email-footnote"><span>*</span> aerial@umd.edu has not been set up yet, it will be soon!</p>
+  <p class="email-footnote"><span>*</span> aerial@umd.edu has not been set up yet, emails should be sent to nmanikan@terpmail.umd.edu until we set it up!</p>
 
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
